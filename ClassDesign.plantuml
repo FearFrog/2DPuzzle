@@ -1,0 +1,38 @@
+@startuml
+
+enum SceneState{
+    +Title
+    +Stage_One
+    +Option
+    +Result
+}
+
+class GameManager{
+    +AudioManager
+    +SceneManager
+    +EffectManager
+
+    +Start()
+}
+
+class AudioManager{
+
+}
+
+class SceneManager{
+    -SceneState
+
+    +ChangeScene(SceneState state)
+}
+
+class EffectManager{
+
+}
+
+GameManager --> AudioManager
+GameManager --> SceneManager
+GameManager --> EffectManager
+
+SceneManager <--> SceneState
+
+@enduml
