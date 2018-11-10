@@ -1,0 +1,65 @@
+@startuml
+
+enum SceneState{
+    +Title
+    +Stage_One
+    +Option
+    +Result
+}
+
+class GameManager{
+    +AudioManager
+    +SceneManager
+    +EffectManager
+    +BoardManager
+
+    +Start()
+}
+
+class AudioManager{
+    +PlayBGM()
+    +PlaySE()
+}
+
+class SceneManager{
+    -SceneState
+
+    +ChangeScene(SceneState state)
+}
+
+class EffectManager{
+
+}
+
+class BoardManager{
+    +Start
+    -CreateBoard(float xOffset,float yOffset)
+    +FindNullToles()
+    -ShiftTilesDown()
+    GameOver()
+
+}
+
+class Pieces{
+    select()
+    Deselect()
+    +OnMouseDown()
+    +SwapSprite()
+    -FindMatch()
+    -ClearMatch()
+}
+
+class ScoreCont{
+    AddScore()
+}
+
+GameManager --> AudioManager
+GameManager --> SceneManager
+GameManager --> EffectManager
+GameManager --> BoardManager
+
+BoardManager<-->Pieces
+
+SceneManager <--> SceneState
+
+@enduml
