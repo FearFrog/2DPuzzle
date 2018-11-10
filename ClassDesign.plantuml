@@ -16,7 +16,8 @@ class GameManager{
 }
 
 class AudioManager{
-
+    +PlayBGM()
+    +PlaySE()
 }
 
 class SceneManager{
