@@ -18,7 +18,8 @@ class GameManager{
 }
 
 class AudioManager{
-
+    +PlayBGM()
+    +PlaySE()
 }
 
 class SceneManager{
@@ -59,6 +60,7 @@ GameManager --> EffectManager
 GameManager --> BoardManager
 
 BoardManager<-->Pieces
+
 SceneManager <--> SceneState
 
 @enduml
