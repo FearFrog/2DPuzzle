@@ -14,51 +14,50 @@ class GameManager{
     +BoardManager
 
     +Start()
+    +GameOver()
+    +AddScore()
 }
 
 class AudioManager{
+    +UpdateByFrame()
     +PlayBGM()
     +PlaySE()
 }
 
 class SceneManager{
     -SceneState
-
+    +UpdateByFrame()
     +ChangeScene(SceneState state)
 }
 
 class EffectManager{
-
+    +UpdateByFrame()
 }
 
 class BoardManager{
-    +Start
     -CreateBoard(float xOffset,float yOffset)
-    +FindNullToles()
-    -ShiftTilesDown()
-    GameOver()
-
+    -FallTiles() 
+    +UpdateByFrame()
+    +FindNullTiles()
 }
 
 class Pieces{
-    select()
-    Deselect()
-    +OnMouseDown()
-    +SwapSprite()
+    -Select()
+    -Deselect()
     -FindMatch()
     -ClearMatch()
+    +UpdateByFrame()
+    +OnMouseDown()
+    +SwapSprite()
 }
 
-class ScoreCont{
-    AddScore()
-}
 
 GameManager --> AudioManager
 GameManager --> SceneManager
 GameManager --> EffectManager
 GameManager --> BoardManager
 
-BoardManager<-->Pieces
+BoardManager-->Pieces
 
 SceneManager <--> SceneState
 
