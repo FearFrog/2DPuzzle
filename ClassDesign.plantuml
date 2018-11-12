@@ -1,44 +1,67 @@
 @startuml
 
-enum SceneState{
-    +Title
-    +Stage_One
-    +Option
-    +Result
+namespace Enums{
+    enum SceneState{
+        +Title
+        +Stage_One
+        +Pause
+        +Option
+        +Result
+    }
+
+    enum AudioState{
+        +Play   
+        +Fade
+        +Stop
+    }
 }
 
-
 class GameManager{
+
     +AudioManager
     +SceneManager
     +EffectManager
     +BoardManager
 
-    +Start()
-    +GameOver()
-    +AddScore()
+
+    +void Start()
+    +void Update() 
+    +void GameOver()
+    +void AddScore()
 }
 
 class AudioManager{
-    +UpdateByFrame()
-    +PlayBGM()
-    +PlaySE()
+    -float m_BGM_Volume
+    -float m_SE_Volume
+
+    +void PlayBGM(string playBGM)
+    +void PlaySE(string playSE)
+    +void SetVolume(float setVolume)
+    +void FadeVolume(string nextSound)
 }
 
 class SceneManager{
     -SceneState
-    +UpdateByFrame()
-    +ChangeScene(SceneState state)
+    +SceneState{get; private set;}
+    +void ChangeScene(SceneState state)
 }
 
 class EffectManager{
-    +UpdateByFrame()
+    -List<GameObject>
+    
+    +void PlayEffect(string playEffect)
+}
+
+class TimeManager{
+    +void StartTime()
+    +void StopTime()
+    +async Task WaitFotTime(float waitTime)
+    -IEnumerator WaitTimeCoroutine(float waitTime) 
 }
 
 class BoardManager{
     -CreateBoard(float xOffset,float yOffset)
     -FallTiles() 
-    +UpdateByFrame()
     +FindNullTiles()
 }
 
@@ -47,19 +70,45 @@ class Pieces{
     -Deselect()
     -FindMatch()
     -ClearMatch()
-    +UpdateByFrame()
     +OnMouseDown()
     +SwapSprite()
 }
 
+interface IUpdate{
+    +void UpdateByFrame()
+}
 
-GameManager --> AudioManager
+class Effect{
+    -float lifeTime
+
+    -void Destroy()
+}
+
+class Constants{
+    +const string BGM名
+    +const string SE名
+    +const string エフェクト名
+}
+
+GameManager <--> AudioManager
 GameManager --> SceneManager
 GameManager --> EffectManager
 GameManager --> BoardManager
+GameManager --> TimeManager
 
 BoardManager-->Pieces
 
-SceneManager <--> SceneState
+SceneManager <-u-> Enums.SceneState
+AudioManager <-u-> Enums.AudioState
+
+AudioManager -u-> Constants
+EffectManager -u-> Constants
+EffectManager --> Effect
+
+AudioManager  --|> IUpdate
+SceneManager  --|> IUpdate
+BoardManager  --|> IUpdate
+EffectManager --|> IUpdate
+TimeManager   --|>  IUpdate
 
 @enduml
